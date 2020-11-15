@@ -37,7 +37,7 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("苦逼梦新");
         gc.setOpen(false); // 生成后是否打开资源管理器
-        gc.setFileOverride(true); // 重新生成文件时是否覆盖
+        gc.setFileOverride(false); // 重新生成文件时是否覆盖
         gc.setServiceName("%sService"); // 去掉Service接口的首字母I
         gc.setIdType(IdType.ASSIGN_ID); // 主键策略
         gc.setDateType(DateType.ONLY_DATE); // 定义生成的实体类中日期类型
@@ -70,7 +70,6 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel); // 数据库表映射到实体的命名策略
         strategy.setColumnNaming(NamingStrategy.underline_to_camel); // 数据库表字段映射到实体的命名策略
         strategy.setTablePrefix(moduleName + "_"); // 设置表前缀不生成
-        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         //strategy.setEntityLombokModel(true); // lombok
         strategy.setLogicDeleteFieldName("is_deleted"); // 逻辑删除字段名
         strategy.setEntityBooleanColumnRemoveIsPrefix(true); // 去掉布尔值的is_前缀
