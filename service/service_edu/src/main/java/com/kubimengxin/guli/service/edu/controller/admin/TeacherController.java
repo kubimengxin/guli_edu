@@ -1,6 +1,7 @@
 package com.kubimengxin.guli.service.edu.controller.admin;
 
 
+import com.kubimengxin.guli.common.base.result.R;
 import com.kubimengxin.guli.service.edu.entity.Teacher;
 import com.kubimengxin.guli.service.edu.service.TeacherService;
 import io.swagger.annotations.Api;
@@ -29,14 +30,19 @@ public class TeacherController {
 
     @ApiOperation("所有讲师列表")
     @GetMapping("list")
-    public List<Teacher> listAll() {
-        return teacherService.list();
+    public R listAll() {
+        List<Teacher> teachers = teacherService.list();
+        return R.ok().data("items", teachers);
     }
 
     @ApiOperation(value = "根据ID删除讲师", notes = "根据ID删除讲师，逻辑删除")
     @DeleteMapping("remove/{id}")
-    public boolean removeById(@ApiParam("讲师ID") @PathVariable String id) {
-        return teacherService.removeById(id);
+    public R removeById(@ApiParam("讲师ID") @PathVariable String id) {
+        boolean result = teacherService.removeById(id);
+        if (result) {
+            return R.ok().message("删除成功");
+        }
+        return R.error().message("数据不存在");
     }
 }
 
