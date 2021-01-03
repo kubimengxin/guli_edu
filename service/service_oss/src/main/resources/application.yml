@@ -1,0 +1,15 @@
+server:
+  port: 8120 # 服务端口
+
+spring:
+  profiles:
+    active: dev #环境设置
+  application:
+    name: service_oss #服务名
+
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    keyid: LTAI4FyGEarPJLGzPNeR98ev
+    keysecret: Vj57i2E9NCQ3M4z7emXZJUzlZGhfnE
+    bucketname: kubimengxin-guli-file
