@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -86,6 +87,27 @@ public class TeacherController {
             return R.ok().data("item", teacher);
         }
         return R.error().message("数据不存在");
+    }
+
+    @ApiOperation("根据id列表删除讲师")
+    @DeleteMapping("batch-remove")
+    public R removeRows(
+            @ApiParam(value = "讲师id列表", required = true)
+            @RequestBody List<String> idList) {
+        boolean result = teacherService.removeByIds(idList);
+        if (result) {
+            return R.ok().message("删除成功");
+        }
+        return R.error().message("数据不存在");
+    }
+
+    @ApiOperation("根据关键字查询讲师名列表")
+    @DeleteMapping("list/name/{key}")
+    public R selectNameListByKey(
+            @ApiParam(value = "关键字", required = true)
+            @PathVariable String key) {
+        List<Map<String, Object>> nameList = teacherService.selectNameList(key);
+        return R.ok().data("nameList", nameList);
     }
 }
 
