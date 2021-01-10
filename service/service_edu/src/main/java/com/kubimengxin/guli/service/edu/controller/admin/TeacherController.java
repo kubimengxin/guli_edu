@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kubimengxin.guli.common.base.result.R;
 import com.kubimengxin.guli.service.edu.entity.Teacher;
 import com.kubimengxin.guli.service.edu.entity.vo.TeacherQueryVo;
+import com.kubimengxin.guli.service.edu.feign.OssFileService;
 import com.kubimengxin.guli.service.edu.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +29,14 @@ import java.util.Map;
 @Api(tags = "讲师管理")
 @RestController
 @RequestMapping("/admin/edu/teacher")
+@Slf4j
 public class TeacherController {
 
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private OssFileService ossFileService;
 
     @ApiOperation("所有讲师列表")
     @GetMapping("list")
@@ -42,6 +48,10 @@ public class TeacherController {
     @ApiOperation(value = "根据ID删除讲师", notes = "根据ID删除讲师，逻辑删除")
     @DeleteMapping("remove/{id}")
     public R removeById(@ApiParam("讲师ID") @PathVariable String id) {
+        // 删除讲师头像
+        teacherService.removeAvatarById(id);
+
+        // 删除讲师
         boolean result = teacherService.removeById(id);
         if (result) {
             return R.ok().message("删除成功");
@@ -108,6 +118,14 @@ public class TeacherController {
             @PathVariable String key) {
         List<Map<String, Object>> nameList = teacherService.selectNameList(key);
         return R.ok().data("nameList", nameList);
+    }
+
+    @ApiOperation(value = "测试服务调用")
+    @GetMapping("test")
+    public R test() {
+        ossFileService.test();
+        log.info("edu test执行成功");
+        return R.ok();
     }
 }
 
