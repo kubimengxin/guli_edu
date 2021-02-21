@@ -127,5 +127,23 @@ public class TeacherController {
         log.info("edu test执行成功");
         return R.ok();
     }
+
+    @ApiOperation("测试并发")
+    @GetMapping("test_concurrent")
+    public R testConcurrent() {
+        log.info("test_concurrent");
+        return R.ok();
+    }
+
+    @GetMapping("/message1")
+    public String message1() {
+        return "message1";
+    }
+
+    @GetMapping("/message2")
+    public String message2() {
+        return "message2";
+    }
+
 }
 
